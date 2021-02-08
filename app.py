@@ -5,44 +5,44 @@ from threading import Thread
 GPIO.setmode(GPIO.BCM)  
 GPIO.setwarnings(False)
 
-runtimeAR = []
+runtimeArr = []
 
-GPIO.setup(4, GPIO.IN)
-GPIO.setup(22, GPIO.IN)
-GPIO.setup(18, GPIO.OUT)
-GPIO.setup(24, GPIO.OUT)
+GPIO.setup(4, GPIO.IN) # Moisture Sensor
+GPIO.setup(22, GPIO.IN) # Switch
+GPIO.setup(18, GPIO.OUT) # Buzzer / LED
+GPIO.setup(24, GPIO.OUT) # Buzzer / LED
 
 print('It is not raining :)')
 
-def moisturecheck():
+def moistureCheck():
     if GPIO.input(4):
         return True
     else:
         return False
 
-def switchcheck():
+def switchCheck():
     if GPIO.input(22):
         return True
     else:
         return False
 
-def buzzeralert():
+def buzzerAlert():
     GPIO.output(18,1)
     GPIO.output(24,1)
     time.sleep(3)
     GPIO.output(18,0)
     GPIO.output(24,0)
 
-def moistureloop():
+def moistureLoop():
     while True:
-        if moisturecheck() == True:
+        if moistureCheck() == True:
             print("Alert to phone")
             print("It is raining :(")
-            if switchcheck() == True:
-                buzzeralert()
+            if switchCheck() == True:
+                buzzerAlert()
             time.sleep(10)
             print("10min")
-            while moisturecheck() == True:
+            while moistureCheck() == True:
                 time.sleep(10)
                 print("2min")
             print('It is not raining :)')
@@ -50,7 +50,7 @@ def moistureloop():
         else:
             continue
 
-def inputloop():
+def inputLoop():
     runtime = ''
     MATRIX=[[1,2,3],
             [4,5,6],
@@ -78,16 +78,16 @@ def inputloop():
                     runtime += str(MATRIX[j][i])
                     if len(runtime) == 4:
                         runtime = runtime[:2] + ':' + runtime[2:]
-                        runtimeAR.append(runtime)
-                        print(runtimeAR)
+                        runtimeArr.append(runtime)
+                        print(runtimeArr)
                         runtime = ''
                     while GPIO.input(ROW[j])==0: #debounce
                         time.sleep(0.1)
             GPIO.output(COL[i],1) #write back default value of 1
 
-thread1 = Thread(target=moistureloop)
+thread1 = Thread(target=moistureLoop)
 threads = [thread1]
-thread2 = Thread(target=inputloop)
+thread2 = Thread(target=inputLoop)
 threads += [thread2]
 
 thread1.start()
