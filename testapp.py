@@ -61,10 +61,14 @@ def inputLoop():
         print(f'{"":-^40}')
         runtime = input("User runtime?\n >> ")
         if len(runtime) == 4:
-            runtime = runtime[:2] + ':' + runtime[2:]
+            runtime = runtime[:2] + '.' + runtime[2:]
             runtimeArr.append(runtime)
             print(f'{"":-^40}')
             print(runtimeArr)
+            print(f'{"":-^40}')
+            print(f'{"Uploading data...": ^40}')
+            resp = requests.get("https://api.thingspeak.com/update?api_key=KYZKACCC3QKGA5XM&field1=%s&field2=%s" %("15-02-2021", runtime))
+            print(f'Runtime: {runtime}, Date: {time.strftime("%d-%m-%Y")}')
             print(f'{"":-^40}')
             runtime = ''
         testRuntime = input("U want to test the runtime loop? y/n\n>> ")
