@@ -67,7 +67,7 @@ def inputLoop():
             print(runtimeArr)
             print(f'{"":-^40}')
             print(f'{"Uploading data...": ^40}')
-            resp = requests.get("https://api.thingspeak.com/update?api_key=KYZKACCC3QKGA5XM&field1=%s&field2=%s" %("15-02-2021", runtime))
+            resp = requests.get("https://api.thingspeak.com/update?api_key=KYZKACCC3QKGA5XM&field1=%s&field2=%s" %(time.strftime("%d-%m-%Y"), runtime))
             print(f'Runtime: {runtime}, Date: {time.strftime("%d-%m-%Y")}')
             print(f'{"":-^40}')
             runtime = ''
