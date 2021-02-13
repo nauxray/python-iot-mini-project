@@ -2,44 +2,30 @@ import time
 import requests
 from threading import Thread
 
-from telethon.sync import TelegramClient 
-from telethon.tl.types import InputPeerUser, InputPeerChannel 
-from telethon import TelegramClient
-
-api_id = '2616181'
-api_hash = 'a2c456736c48db4a64cf944634eaf3c4'
-token = '1582053448:AAFSoZpF0i5TWq3ECP0sBtI6apabD5C02so'
 runtimeArr = []
-
-phone = '+65' + input("Enter phone number (yx is 92973342): ")
-print("PHONE NUMBER:", phone)
 
 print(f'{"":-^40}')
 print(f'{"It is not raining :)": ^40}')
 
-def sendMsg():
-    # creating a telegram session and assigning 
-    # it to a variable client 
-    client = TelegramClient('session', api_id, api_hash) 
+def sendAlert():
     
-    # connecting and building the session 
-    client.connect() 
-    
-    # in case of script ran first time it will ask either to input token or otp sent to number or sent or your telegram id  
-    if not client.is_user_authorized(): 
-        client.send_code_request(phone) 
-        # signing in the client 
-        client.sign_in(phone, input('Enter the code: ')) 
-    try: 
-        # melvin's userinfo inserted to send msg to him
-        receiver = InputPeerUser(client.get_entity("BobaSucker").id, client.get_entity("BobaSucker").access_hash)     
-        # sending message using telegram client 
-        client.send_message(receiver, "ALERT ALERT", parse_mode='html') 
-    except Exception as e: 
-        print(e);     
-    # disconnecting the telegram session  
-    client.disconnect() 
+    bot_token = '1633948097:AAEr1VWwO099l2dDRWhVh1Ch898BrJ8MIVg'
 
+    # chatID have to change based on who u want the bot to send msg to
+    # you have to go to telegram and search for this bot "IOT_rainalertBot"
+    # then press the start button
+    # in a browser, open this link https://api.telegram.org/bot1633948097:AAEr1VWwO099l2dDRWhVh1Ch898BrJ8MIVg/getUpdates
+    # you should see like some json format data, and it should have ur username
+    # you need to replace the chatID here with the id from the json data
+    
+    bot_chatID = '948149667'
+    alertMsg = 'Alert!! raining'
+
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + alertMsg
+
+    response = requests.get(send_text)
+
+    return response.json()
 
 def moistureCheck():
     if input("Moisture check y/n?\n>> ") == "y":
@@ -73,7 +59,7 @@ def moistureLoop():
             if moistureCheck() == True:
                 print(f'{"":-^40}')
                 print("Alert to phone")
-                sendMsg()
+                sendAlert()
                 print("It is raining :(")
                 print(f'{"":-^40}')
                 if switchCheck() == True:
