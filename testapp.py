@@ -1,14 +1,16 @@
 import time
 import requests
 from threading import Thread
+from tkinter import *
 
 runtimeArr = []
 
 print(f'{"":-^40}')
 print(f'{"It is not raining :)": ^40}')
 
+
 def sendAlert():
-    
+
     bot_token = '1633948097:AAEr1VWwO099l2dDRWhVh1Ch898BrJ8MIVg'
 
     # chatID have to change based on who u want the bot to send msg to
@@ -17,15 +19,17 @@ def sendAlert():
     # in a browser, open this link https://api.telegram.org/bot1633948097:AAEr1VWwO099l2dDRWhVh1Ch898BrJ8MIVg/getUpdates
     # you should see like some json format data, and it should have ur username
     # you need to replace the chatID here with the id from the json data
-    
-    bot_chatID = '948149667'
+
+    bot_chatID = '418787867'
     alertMsg = 'Alert!! raining'
 
-    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + alertMsg
+    send_text = 'https://api.telegram.org/bot' + bot_token + \
+        '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + alertMsg
 
     response = requests.get(send_text)
 
     return response.json()
+
 
 def moistureCheck():
     if input("Moisture check y/n?\n>> ") == "y":
@@ -33,11 +37,13 @@ def moistureCheck():
     else:
         return False
 
+
 def switchCheck():
     if input("Switch check y/n?\n>> ") == "y":
         return True
     else:
         return False
+
 
 def buzzerAlert():
     print(f'{"":-^40}')
@@ -49,6 +55,7 @@ def buzzerAlert():
     print(f'{"":-^40}')
     print(f'{"BUZZER OFF": ^40}')
     print(f'{"LED OFF": ^40}')
+
 
 def moistureLoop():
     while True:
@@ -75,6 +82,7 @@ def moistureLoop():
             else:
                 continue
 
+
 def inputLoop():
     runtime = ''
 
@@ -88,13 +96,15 @@ def inputLoop():
             print(runtimeArr)
             print(f'{"":-^40}')
             print(f'{"Uploading data...": ^40}')
-            resp = requests.get("https://api.thingspeak.com/update?api_key=KYZKACCC3QKGA5XM&field1=%s&field2=%s" %(time.strftime("%d-%m-%Y"), runtime))
+            resp = requests.get("https://api.thingspeak.com/update?api_key=KYZKACCC3QKGA5XM&field1=%s&field2=%s" %
+                                (time.strftime("%d-%m-%Y"), runtime))
             print(f'Runtime: {runtime}, Date: {time.strftime("%d-%m-%Y")}')
             print(f'{"":-^40}')
             runtime = ''
         testRuntime = input("Test the runtime loop? y/n\n>> ")
         if testRuntime == "n":
             break
+
 
 while True:
     print(f'{"":-^40}')
