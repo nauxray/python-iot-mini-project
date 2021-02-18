@@ -15,6 +15,8 @@ GPIO.setup(24, GPIO.OUT)  # Buzzer / LED
 
 print(f'{"It is not raining :)": ^40}')
 
+# ThingSpeak link: https://thingspeak.com/channels/1230240
+
 def sendAlert():
 
     bot_token = '1633948097:AAEr1VWwO099l2dDRWhVh1Ch898BrJ8MIVg'
