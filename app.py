@@ -13,8 +13,7 @@ GPIO.setup(22, GPIO.IN)  # Switch
 GPIO.setup(18, GPIO.OUT)  # Buzzer / LED
 GPIO.setup(24, GPIO.OUT)  # Buzzer / LED
 
-print('It is not raining :)')
-
+print(f'{"It is not raining :)": ^40}')
 
 def sendAlert():
 
@@ -28,13 +27,12 @@ def sendAlert():
     # you need to replace the chatID here with the id from the json data
 
     bot_chatID = '418787867'
-    alertMsg = 'Alert!! raining'
+    alertMsg = 'ALERT: It is raining! :('
 
     send_text = 'https://api.telegram.org/bot' + bot_token + \
         '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + alertMsg
 
     response = requests.get(send_text)
-
     return response.json()
 
 
@@ -63,17 +61,19 @@ def buzzerAlert():
 def moistureLoop():
     while True:
         if moistureCheck() == True:
-            print("Alert to phone")
+            print(f'{"Alert to phone": ^40}')
+
             sendAlert()
-            print("It is raining :(")
+            print(f'{"It is raining :(": ^40}')
             if switchCheck() == True:
                 buzzerAlert()
             time.sleep(10)
-            print("10min")
+            print(f'{"10 min": ^40}')
             while moistureCheck() == True:
                 time.sleep(10)
-                print("2min")
-            print('It is not raining :)')
+                print(f'{"2 min": ^40}')
+            print(f'{"It is not raining :)": ^40}')
+
             continue
         else:
             continue
@@ -115,8 +115,7 @@ def inputLoop():
                         print(f'{"Uploading data...": ^40}')
                         resp = requests.get(
                             "https://api.thingspeak.com/update?api_key=KYZKACCC3QKGA5XM&field1=%s&field2=%s" % (time.strftime("%d-%m-%Y"), runtime))
-                        print(
-                            f'Runtime: {runtime}, Date: {time.strftime("%d/%m/%Y")}')
+                        print(f'Runtime: {runtime}, Date: {time.strftime("%d-%m-%Y")}')
                         print(f'{"":-^40}')
 
                         runtime = ''
